@@ -1,7 +1,8 @@
 import java.util.Arrays;
 
 public class Board {
-    Player[][] board;
+    private Player[][] board;
+
     public Board() {
         this.board = new Player[3][3];
         for (Player[] row : board) {
@@ -28,5 +29,17 @@ public class Board {
      */
     public void setCell(Player player, int row, int column) {
         board[row-1][column-1] = player;
+    }
+
+    /**
+     * Returns the Player, whose mark is on the given coordinates.
+     * The coordinates are addressed - in a user-friendly way - from 1 to 3
+     *
+     * @param row the selected row index (1-3)
+     * @param column the selected column index (1-3)
+     * @return the mark on the selected cell
+     */
+    public Player getCell(int row, int column) {
+        return board[row-1][column-1];
     }
 }

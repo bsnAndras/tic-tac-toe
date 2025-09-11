@@ -1,4 +1,6 @@
 import java.util.Scanner;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 public class Main {
 
@@ -8,14 +10,14 @@ public class Main {
         boolean wantToPlay = true;
         System.out.println("---- Tic-Tac-Toe Game ----");
 
-        try(Scanner scanner = new Scanner(System.in)) {
-            while(wantToPlay){
+        try (Scanner scanner = new Scanner(System.in)) {
+            while (wantToPlay) {
                 game(scanner);
 
                 System.out.println("Do you want to play again? (yes/no)");
                 String playAgainResponse = scanner.nextLine().trim().toLowerCase();
 
-                while(!playAgainResponse.matches("^(yes|y|no|n)$")) {
+                while (!playAgainResponse.matches("^(yes|y|no|n)$")) {
                     System.out.println("Invalid input. Please enter 'yes/y' or 'no/n'.");
                     playAgainResponse = scanner.nextLine().trim().toLowerCase();
                 }
@@ -24,30 +26,54 @@ public class Main {
             }
             System.out.println("Thank you for playing! Goodbye.");
         } catch (Exception e) {
-            System.err.println("An exception occurred: " + e.getMessage());
-            e.printStackTrace();
-
-            System.out.println("Restarting game due to an error...");
-            main(args); // Restart the game on exception
+            throw new RuntimeException(e);
         }
     }
 
     private static void game(Scanner scanner) {
         board = new Board();
         Player player = Player.X;
-        System.out.println("Player %s's turn.");
 
         int i = 3; //simple iteration for testing
         do {
             board.printBoard();
-            System.out.print("Select a row (1-3): ");
-            int row = Integer.parseInt(scanner.nextLine());
-            System.out.print("Select a column (1-3): ");
-            int col = Integer.parseInt(scanner.nextLine());
-            board.setCell(player,row,col);
+            System.out.printf("Player %s's turn: %n", player.name());
+            int[] cell = new int[2];
+            do {
+                cell[0] = getValidatedInput(() -> {
+                    System.out.print("Select a row (1-3): ");
+                    return Integer.parseInt(scanner.nextLine());
+                }, input -> input > 0 && input < 4);
+                cell[1] = getValidatedInput(() -> {
+                    System.out.print("Select a column (1-3): ");
+                    return Integer.parseInt(scanner.nextLine());
+                }, input -> input > 0 && input < 4);
+            } while (isCellOccupied(cell));
+
+            board.setCell(player, cell[0], cell[1]);
             player = player.switchPlayer();
-        } while(i-- > 0);
+        } while (i-- > 0);
 
         board.printBoard();
+    }
+
+    private static boolean isCellOccupied(int[] cell) {
+        if (board.getCell(cell[0], cell[1]).equals(Player.EMPTY))
+            return false;
+
+        System.out.println("Selected cell is occupied. Select another one!");
+        return true;
+    }
+
+    private static <I> I getValidatedInput(Supplier<I> inputExecutor, Predicate<I> inputValidator) {
+        I input;
+        input = inputExecutor.get();
+
+        while (!inputValidator.test(input)) {
+            System.out.println("Invalid input. Try again!");
+            input = inputExecutor.get();
+        }
+
+        return input;
     }
 }
