@@ -18,4 +18,15 @@ public class Board {
         System.out.printf ("      | %s | %s | %s |%n",board[2][0],board[2][1],board[2][2]);
         System.out.println("      -------------");
     }
+
+    /**
+     * Places a player's mark on a selected cell of the board.
+     * The coordinates are addressed - in a user-friendly way - from 1 to 3
+     * @param player the current player
+     * @param row the row of the selected cell (1-3)
+     * @param column the column of the selected cell (1-3)
+     */
+    public void setCell(Player player, int row, int column) {
+        board[row-1][column-1] = player;
+    }
 }

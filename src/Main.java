@@ -34,6 +34,20 @@ public class Main {
 
     private static void game(Scanner scanner) {
         board = new Board();
+        Player player = Player.X;
+        System.out.println("Player %s's turn.");
+
+        int i = 3; //simple iteration for testing
+        do {
+            board.printBoard();
+            System.out.print("Select a row (1-3): ");
+            int row = Integer.parseInt(scanner.nextLine());
+            System.out.print("Select a column (1-3): ");
+            int col = Integer.parseInt(scanner.nextLine());
+            board.setCell(player,row,col);
+            player = player.switchPlayer();
+        } while(i-- > 0);
+
         board.printBoard();
     }
 }
