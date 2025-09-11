@@ -33,9 +33,9 @@ public class Main {
     private static void game(Scanner scanner) {
         board = new Board();
         Player player = Player.X;
-        int i = 3; //simple iteration for testing
         board.printBoard();
 
+        int i = 9; //simple iteration for checking for draw
         while(i-- > 0) {
             System.out.printf("Player %s's turn: %n", player.name());
             int[] cellPosition = new int[2]; //coordinates in board (1-3): [x,y]
@@ -57,6 +57,9 @@ public class Main {
             player = player.switchPlayer();
         }
 
+        System.out.println("-------------------------------");
+        System.out.println("||-||    It is a draw.    ||-||");
+        System.out.println("-------------------------------");
     }
     }
 

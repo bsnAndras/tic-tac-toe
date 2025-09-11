@@ -15,4 +15,3 @@
 - switchPlayer(): Switches the current player from X to O or O to X.
 - setCell(int row, int col): Places a player's mark on the board at the specified position.
 - checkWin(): Checks if the current player has won the game.
-- checkDraw(): Checks if the game has ended in a draw.
