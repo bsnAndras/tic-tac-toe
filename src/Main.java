@@ -33,28 +33,31 @@ public class Main {
     private static void game(Scanner scanner) {
         board = new Board();
         Player player = Player.X;
-
         int i = 3; //simple iteration for testing
-        do {
-            board.printBoard();
+        board.printBoard();
+
+        while(i-- > 0) {
             System.out.printf("Player %s's turn: %n", player.name());
-            int[] cell = new int[2];
+            int[] cellPosition = new int[2]; //coordinates in board (1-3): [x,y]
             do {
-                cell[0] = getValidatedInput(() -> {
+                cellPosition[1] = getValidatedInput(() -> {
                     System.out.print("Select a row (1-3): ");
                     return Integer.parseInt(scanner.nextLine());
                 }, input -> input > 0 && input < 4);
-                cell[1] = getValidatedInput(() -> {
+                cellPosition[0] = getValidatedInput(() -> {
                     System.out.print("Select a column (1-3): ");
                     return Integer.parseInt(scanner.nextLine());
                 }, input -> input > 0 && input < 4);
-            } while (isCellOccupied(cell));
+            } while (isCellOccupied(cellPosition));
 
-            board.setCell(player, cell[0], cell[1]);
+            board.setCell(player, cellPosition[0], cellPosition[1]);
+            board.printBoard();
+
+
             player = player.switchPlayer();
-        } while (i-- > 0);
+        }
 
-        board.printBoard();
+    }
     }
 
     private static boolean isCellOccupied(int[] cell) {
