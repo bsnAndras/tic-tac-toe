@@ -1,6 +1,9 @@
 import java.util.Scanner;
 
 public class Main {
+
+    public static Board board;
+
     public static void main(String[] args) {
         boolean wantToPlay = true;
         System.out.println("---- Tic-Tac-Toe Game ----");
@@ -30,6 +33,7 @@ public class Main {
     }
 
     private static void game(Scanner scanner) {
-        System.out.println("Starting a new game...");
+        board = new Board();
+        board.printBoard();
     }
 }
