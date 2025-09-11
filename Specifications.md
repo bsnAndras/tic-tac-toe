@@ -6,7 +6,6 @@
 
 ## Project Structure
 ### Models and Data Structures
-- Board class: Represents the game board as a 2d matrix of O,X and null values.
 - Player enum (X,O): Represents a player in the game or the state of a cell (X, O, null).
 
 ### Methods
