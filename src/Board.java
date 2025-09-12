@@ -1,13 +1,28 @@
 import java.util.Arrays;
 
 public class Board {
-    private Player[][] board;
+    final private Player[][] board;
 
     public Board() {
         this.board = new Player[3][3];
         for (Player[] row : board) {
             Arrays.fill(row, Player.EMPTY);
         }
+    }
+
+    public Board(String[][] matrix){
+        Player[][] board = new Player[3][3];
+        for (int row = 0; row < matrix.length; row++) {
+            for (int col = 0; col < matrix[row].length; col++) {
+                String cell = matrix[row][col].toLowerCase();
+                switch (cell){
+                    case "x" -> board[row][col] = Player.X;
+                    case "o" -> board[row][col] = Player.O;
+                    default -> board[row][col] = Player.EMPTY;
+                }
+            }
+        }
+        this.board = board;
     }
 
     public void printBoard() {

@@ -36,7 +36,7 @@ public class Main {
         board.printBoard();
 
         int i = 9; //simple iteration for checking for draw
-        while(i-- > 0) {
+        while (i-- > 0) {
             System.out.printf("Player %s's turn: %n", player.name());
             int[] cellPosition = new int[2]; //coordinates in board (1-3): [x,y]
             do {
@@ -53,6 +53,12 @@ public class Main {
             board.setCell(player, cellPosition[0], cellPosition[1]);
             board.printBoard();
 
+            if (checkForWin(cellPosition[0], cellPosition[1])) {
+                System.out.println("-------------------------------");
+                System.out.printf("||-||   Player %s wins.    ||-||%n", player);
+                System.out.println("-------------------------------");
+                return;
+            }
 
             player = player.switchPlayer();
         }
@@ -61,6 +67,53 @@ public class Main {
         System.out.println("||-||    It is a draw.    ||-||");
         System.out.println("-------------------------------");
     }
+
+    public static boolean checkForWin(int x, int y) {
+        Player player = board.getCell(x, y);
+
+        //horizontal
+        int attempt = dfs(x - 1, y, new int[]{-1, 0}, player);
+        if(attempt > -1 &&
+           (attempt > 1 || attempt + dfs(x + 1, y, new int[]{1, 0}, player) > 1))
+            return true;
+
+        //vertical
+        attempt = dfs(x, y - 1, new int[]{0, -1}, player);
+        if(attempt > -1 &&
+           (attempt > 1 || attempt + dfs(x, y + 1, new int[]{0, 1}, player) > 1))
+            return true;
+
+        //diagonals
+        if(x == 2 && y != 2 ||
+           x != 2 && y == 2)
+            return false; //these places are in the middle of a side, so cannot win with diagonal
+
+        //diagonal 1
+        attempt = dfs(x - 1, y - 1, new int[]{-1, -1}, player);
+        if(attempt > -1 &&
+           (attempt > 1 || attempt + dfs(x + 1, y + 1, new int[]{1, 1}, player) > 1))
+            return true;
+
+        //diagonal 2
+        attempt = dfs(x + 1, y - 1, new int[]{1, -1}, player);
+        if(attempt > -1 &&
+           (attempt > 1 || attempt + dfs(x - 1, y + 1, new int[]{-1, 1}, player) > 1))
+            return true;
+
+        return false;
+    }
+
+    private static int dfs(int x, int y, int[] direction, Player player) {
+        if (x < 1 || x > 3 || y < 1 || y > 3)
+            return 0;
+        if (!board.getCell(x, y).equals(player))
+            return -1;
+
+        int forward = dfs(x + direction[0], y + direction[1], direction, player);
+        if (forward < 0)
+            return -1;
+
+        return forward + 1;
     }
 
     private static boolean isCellOccupied(int[] cell) {
