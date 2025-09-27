@@ -1,4 +1,8 @@
-import java.util.Scanner;
+import org.jline.terminal.Terminal;
+import org.jline.terminal.TerminalBuilder;
+
+import java.io.IOException;
+import java.io.Reader;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
@@ -10,19 +14,23 @@ public class Main {
         boolean wantToPlay = true;
         System.out.println("---- Tic-Tac-Toe Game ----");
 
-        try (Scanner scanner = new Scanner(System.in)) {
+        try (Terminal terminal = TerminalBuilder.builder()
+                .system(true)
+                .build())
+        {
+            Reader reader = terminal.reader();
             while (wantToPlay) {
-                game(scanner);
+                game(terminal);
 
-                System.out.println("Do you want to play again? (yes/no)");
-                String playAgainResponse = scanner.nextLine().trim().toLowerCase();
+                System.out.println("Do you want to play again? [ y(es) / n(o) ]");
+                char playAgainResponse = Character.toLowerCase((char) reader.read());
 
-                while (!playAgainResponse.matches("^(yes|y|no|n)$")) {
-                    System.out.println("Invalid input. Please enter 'yes/y' or 'no/n'.");
-                    playAgainResponse = scanner.nextLine().trim().toLowerCase();
+                while (playAgainResponse != 'y' && playAgainResponse != 'n') {
+                    System.out.println("Invalid input. Please enter 'y' or 'n'!");
+                    playAgainResponse = Character.toLowerCase((char) reader.read());
                 }
 
-                wantToPlay = playAgainResponse.matches("^(yes|y)$");
+                wantToPlay = playAgainResponse == 'y';
             }
             System.out.println("Thank you for playing! Goodbye.");
         } catch (Exception e) {
@@ -30,7 +38,9 @@ public class Main {
         }
     }
 
-    private static void game(Scanner scanner) {
+    private static void game(Terminal terminal) {
+        Reader reader = terminal.reader();
+
         board = new Board();
         Player player = Player.X;
         board.printBoard();
@@ -41,12 +51,20 @@ public class Main {
             int[] cellPosition = new int[2]; //coordinates in board (1-3): [x,y]
             do {
                 cellPosition[1] = getValidatedInput(() -> {
-                    System.out.print("Select a row (1-3): ");
-                    return Integer.parseInt(scanner.nextLine());
+                    System.out.println("Select a row (1-3): ");
+                    try {
+                        return Character.getNumericValue((char)reader.read());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 }, input -> input > 0 && input < 4);
                 cellPosition[0] = getValidatedInput(() -> {
-                    System.out.print("Select a column (1-3): ");
-                    return Integer.parseInt(scanner.nextLine());
+                    System.out.println("Select a column (1-3): ");
+                    try {
+                        return Character.getNumericValue((char)reader.read());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 }, input -> input > 0 && input < 4);
             } while (isCellOccupied(cellPosition));
 
