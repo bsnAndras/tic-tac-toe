@@ -1,8 +1,9 @@
 # Project specifications
 
 ## Overview
-- programming language: Java
+- programming language: Java 22
 - user interface: CLI (Command Line Interface)
+- utilizing: JLine library for enhanced console input handling
 
 ## Project Structure
 ### Models and Data Structures
