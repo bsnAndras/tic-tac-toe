@@ -3,7 +3,7 @@
 ## Overview
 - programming language: Java 22
 - user interface: CLI (Command Line Interface)
-- utilizing: JLine library for enhanced console input handling
+- utilizing: JLine library for enhanced console input handling (see more info here: [Jline Homepage](https://jline.org/))
 
 ## Project Structure
 ### Models and Data Structures
