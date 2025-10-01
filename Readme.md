@@ -1,4 +1,4 @@
-# Tick-Tack-Toe game
+# Tic-Tac-Toe game
 The popular Tic-Tac-Toe game for Command Line Interface, implemented in Java.
 
 ## Rules
@@ -8,8 +8,17 @@ The popular Tic-Tac-Toe game for Command Line Interface, implemented in Java.
 - If all nine squares are filled and neither player has three in a row, the game ends in a draw.
 
 ## How to Play
-1. Run the application
+1. Run the application (for details, see the "Running the Application" section below).
 2. Follow the prompts to enter your moves by specifying the row and column numbers (1-3).
 3. The game will display the updated grid after each move.
 4. The game continues until there is a winner or the grid is full (draw).
 5. You can choose to play again or exit after a game concludes.
+
+## Running the Application
+1. Ensure you have Java installed on your machine. (at least version 22)
+2. Navigate to the project directory in your terminal.
+3. Run the application using the command:
+   ```
+   java -jar out/artifacts/tic_tac_toe_jar/tic-tac-toe.jar
+   ```
+4. Follow the on-screen instructions to play the game.
