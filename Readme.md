@@ -1,4 +1,4 @@
-# Tick-Tack-Toe game
+# Tic-Tac-Toe game
 The popular Tic-Tac-Toe game for Command Line Interface, implemented in Java.
 
 ## Rules
